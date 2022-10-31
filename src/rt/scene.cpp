@@ -10,7 +10,7 @@ namespace rt {
         float bestDist = INFINITY;
         float dist;
         for (int i = 0; i < indices.size(); i++) {
-            auto ind = indices[i];
+            const auto& ind = indices[i];
 
             // Check if the ray intersects
             const glm::vec3& a = vertices[ind.x];
@@ -35,11 +35,8 @@ namespace rt {
         texcoord = bestTexcoord;
 
         // Compute normal
-        auto ind = indices[bestIdx];
-        const glm::vec3& a = vertices[ind.x];
-        const glm::vec3& b = vertices[ind.y];
-        const glm::vec3& c = vertices[ind.z];
-        norm = glm::triangleNormal(a, b, c);
+        const auto& ind = indices[bestIdx];
+        norm = normals[bestIdx];
         if (glm::dot(norm, ray.dir) > 0.0f) { norm *= -1.0f; }
         mat = materials[ind.w];
 
@@ -53,6 +50,7 @@ namespace rt {
     void Scene::build() {
         vertices.clear();
         indices.clear();
+        normals.clear();
         materials.clear();
 
         for (auto& obj : objects) {
@@ -60,6 +58,14 @@ namespace rt {
             for (auto& vert : obj->getVertices()) { vertices.push_back(vert); }
             for (auto& mat : obj->getMaterials()) { materials.push_back(mat); }
             for (auto& ind : obj->getIndices()) { indices.push_back(ind + indCorr); }
+        }
+
+        // Compute normals
+        for (auto& ind : indices) {
+            const glm::vec3& a = vertices[ind.x];
+            const glm::vec3& b = vertices[ind.y];
+            const glm::vec3& c = vertices[ind.z];
+            normals.push_back(glm::triangleNormal(a, b, c));
         }
     }
 }

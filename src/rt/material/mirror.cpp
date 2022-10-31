@@ -9,7 +9,7 @@ namespace rt::material {
         this->color = color;
     }
 
-    glm::vec3 Mirror::interact(const glm::vec3& norm, const glm::vec3& in, glm::vec3& tint, bool& isLightSource) {
+    glm::vec3 Mirror::interact(const glm::vec3& norm, const glm::vec3& in, glm::vec3& tint, float& refractIdx, bool& isLightSource) {
         // Return tint
         isLightSource = false;
         tint = color;

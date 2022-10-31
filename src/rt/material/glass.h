@@ -3,9 +3,9 @@
 #include "../material.h"
 
 namespace rt::material {
-    class Lambertian : public Material {
+    class Glass : public Material {
     public:
-        Lambertian(const glm::vec3& color);
+        Glass(const glm::vec3& color);
 
         glm::vec3 interact(const glm::vec3& norm, const glm::vec3& in, glm::vec3& tint, float& refractIdx, bool& isLightSource);
 

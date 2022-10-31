@@ -7,7 +7,7 @@ namespace rt::material {
         tint = color * intensity;
     }
 
-    glm::vec3 LightSource::interact(const glm::vec3& norm, const glm::vec3& in, glm::vec3& tint, bool& isLightSource) {
+    glm::vec3 LightSource::interact(const glm::vec3& norm, const glm::vec3& in, glm::vec3& tint, float& refractIdx, bool& isLightSource) {
         tint = this->tint;
         isLightSource = true;
         return glm::vec3(0);

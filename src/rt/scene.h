@@ -15,6 +15,7 @@ namespace rt {
         void build();
 
         std::vector<glm::vec<4, int>> indices;
+        std::vector<glm::vec3> normals;
         std::vector<glm::vec3> vertices;
         std::vector<std::shared_ptr<Material>> materials;
 

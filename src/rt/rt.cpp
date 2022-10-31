@@ -8,6 +8,7 @@ namespace rt {
         auto res = target->getResolution();
         auto rf = cam->genRayField(res, true);
 
+
         // Iterate over entire rayfield
         #pragma omp parallel for schedule(dynamic)
         for (int y = 0; y < res.y; y++) {
@@ -22,6 +23,7 @@ namespace rt {
 
                 // Iteratively bounce the ray
                 glm::vec3 albedo(1.0f, 1.0f, 1.0f);
+                float refractIdx = 1.0f;
                 bool source = false;
                 for (int i = 0; i < maxBounces; i++) {
                     // If no contact, give u^p
@@ -32,7 +34,7 @@ namespace rt {
                     // Move ray origin and interact with the material. If light source, return
                     // TODO: tint must be modulated by angle of attack glm::dot(norm, dir)
                     ray.org += ray.dir * distance;
-                    ray.dir = mat->interact(norm, ray.dir, tint, source);
+                    ray.dir = mat->interact(norm, ray.dir, tint, refractIdx, source);
                     ray.org += ray.dir * EPSILON;
                     albedo *= tint;
                     if (source) {
